@@ -47,7 +47,7 @@ fi
 # Lightweight sanity checks before publishing.
 node tools/check.js
 node tools/smoke-static.js
-printf 'âœ“ publish checks passed\n'
+printf 'âœ?publish checks passed\n'
 
 rm -rf "$DIST"
 mkdir -p "$DIST/assets"
@@ -96,7 +96,7 @@ if [[ -d vendor ]]; then
   ' sh {} +)
 fi
 
-# Sounds â€” music + foley referenced by the app via sounds/<name>.mp3.
+# Sounds â€?music + foley referenced by the app via sounds/<name>.mp3.
 # The page expects this exact directory at the deploy root.
 if [[ -d sounds ]]; then
   mkdir -p "$DIST/sounds"
@@ -108,7 +108,7 @@ if [[ -d sounds ]]; then
   ' sh {} +)
 fi
 
-# User-selectable material textures referenced by Settings â†’ Materials.
+# User-selectable material textures referenced by Settings â†?Materials.
 if [[ -d textures ]]; then
   mkdir -p "$DIST/textures"
   (cd textures && find . -type f ! -name '.DS_Store' -exec sh -c '
@@ -160,8 +160,8 @@ node tools/model-stamps.js "$DIST/models/stamp-manifest.json"
 if [[ "$ZIP" -eq 1 ]]; then
   rm -f "$ROOT/tinyworld-dist.zip"
   (cd "$DIST" && zip -qr "$ROOT/tinyworld-dist.zip" .)
-  echo "âœ“ Created tinyworld-dist.zip"
+  echo "âœ?Created tinyworld-dist.zip"
 fi
 
-echo "âœ“ Created dist/"
+echo "âœ?Created dist/"
 echo "  Open: dist/index.html"

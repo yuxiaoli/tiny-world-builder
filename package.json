@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "node tools/dev-server.js",
-    "build": "./publish.sh",
+    "build": "./scripts/publish.sh",
     "check": "node tools/check.js",
     "smoke": "node tools/smoke-static.js",
     "perf": "node tools/perf-probe.js",

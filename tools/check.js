@@ -7,7 +7,7 @@ const htmlPath = path.join(root, 'tiny-world-builder.html');
 const schemaPath = path.join(root, 'world.schema.json');
 const vercelPath = path.join(root, 'vercel.json');
 const netlifyPath = path.join(root, 'netlify.toml');
-const html = fs.readFileSync(htmlPath, 'utf8');
+const html = fs.readFileSync(htmlPath, 'utf8').replace(/\r\n/g, '\n');
 
 function fail(message) {
   console.error('check failed:', message);
@@ -83,7 +83,7 @@ if (!/id="render-terrain-color-target"/.test(html) || !/id="render-terrain-tone"
 if (!/id="render-material-target"/.test(html) || !/id="render-material-texture"/.test(html)) {
   fail('settings must expose part material color and texture controls');
 }
-if (!/textures\/HJCliEjbEAA9Ah2\.jpeg/.test(html) || !/dist\/textures/.test(fs.readFileSync(path.join(root, 'publish.sh'), 'utf8'))) {
+if (!/textures\/HJCliEjbEAA9Ah2\.jpeg/.test(html) || !/dist\/textures/.test(fs.readFileSync(path.join(root, 'scripts', 'publish.sh'), 'utf8'))) {
   fail('texture-folder material assets must be referenced by the app and copied to dist/textures');
 }
 if (/function makeCustomPartsStamp[\s\S]*?\n\s*addVoxelBuildTrimFrame\(g, trimBounds, voxelTrimMaterial\(trimBase\)\);\n\s*g\.userData/.test(html)) {

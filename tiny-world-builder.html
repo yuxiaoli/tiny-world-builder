@@ -34573,9 +34573,24 @@
   function loadState() {
     let data;
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return false;
-      data = JSON.parse(raw);
+      let worldParam = null;
+      try {
+        const params = new URLSearchParams(window.location.search || '');
+        const hash = String(window.location.hash || '').replace(/^#\??/, '');
+        if (hash && hash.includes('=')) {
+          const hashParams = new URLSearchParams(hash);
+          hashParams.forEach((value, key) => { if (!params.has(key)) params.set(key, value); });
+        }
+        worldParam = params.get('world');
+      } catch (_) {}
+
+      if (worldParam) {
+        data = JSON.parse(worldParam);
+      } else {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+        data = JSON.parse(raw);
+      }
     } catch (_) { return false; }
     const ok = applyState(data, { keepCamera: true });
     if (ok) resetCameraDefaults();

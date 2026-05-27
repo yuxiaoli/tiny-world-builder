@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tinyworld.local/transform.schema.json",
+  "title": "Transform",
+  "oneOf": [
+    {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 4,
+      "prefixItems": [
+        { "type": "number", "description": "rotationY in radians" },
+        { "type": "number", "description": "offsetX in tile units" },
+        { "type": "number", "description": "offsetZ in tile units" },
+        { "type": "number", "description": "offsetY in tile units" }
+      ],
+      "items": false
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rotationY": { "type": "number" },
+        "offsetX": { "type": "number" },
+        "offsetZ": { "type": "number" },
+        "offsetY": { "type": "number" }
+      }
+    }
+  ]
+}

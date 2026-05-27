@@ -1,0 +1,38 @@
+{
+  "v": 4,
+  "gridSize": 16,
+  "cameraMode": "ortho",
+  "toolId": "grass",
+  "cells": [
+    {
+      "x": 1,
+      "z": 1,
+      "terrain": "grass",
+      "kind": "house",
+      "floors": 2,
+      "terrainFloors": 1,
+      "buildingType": "cottage",
+      "fenceSide": null
+    },
+    {
+      "x": 2,
+      "z": 1,
+      "terrain": "path",
+      "kind": null,
+      "floors": 1,
+      "terrainFloors": 1,
+      "buildingType": null,
+      "fenceSide": null
+    },
+    {
+      "x": 3,
+      "z": 1,
+      "terrain": "water",
+      "kind": "bridge",
+      "floors": 1,
+      "terrainFloors": 1,
+      "buildingType": null,
+      "fenceSide": null
+    }
+  ]
+}
