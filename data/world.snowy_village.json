@@ -1,0 +1,109 @@
+{
+  "v": 4,
+  "gridSize": 16,
+  "cameraMode": "perspective",
+  "useLandscapeEngine": true,
+  "landscapeEngineBiome": "snow",
+  "cells": [
+    {
+      "x": 6,
+      "z": 6,
+      "terrain": "snow",
+      "kind": "house",
+      "floors": 1,
+      "terrainFloors": 2,
+      "buildingType": "cottage",
+      "fenceSide": null
+    },
+    {
+      "x": 7,
+      "z": 6,
+      "terrain": "snow",
+      "kind": "tree",
+      "floors": 1,
+      "terrainFloors": 2,
+      "buildingType": null,
+      "fenceSide": null
+    },
+    {
+      "x": 6,
+      "z": 7,
+      "terrain": "path",
+      "kind": null,
+      "floors": 1,
+      "terrainFloors": 1,
+      "buildingType": null,
+      "fenceSide": null
+    },
+    {
+      "x": 6,
+      "z": 8,
+      "terrain": "path",
+      "kind": null,
+      "floors": 1,
+      "terrainFloors": 1,
+      "buildingType": null,
+      "fenceSide": null
+    },
+    {
+      "x": 6,
+      "z": 9,
+      "terrain": "water",
+      "kind": "bridge",
+      "floors": 1,
+      "terrainFloors": 1,
+      "buildingType": null,
+      "fenceSide": null
+    },
+    {
+      "x": 7,
+      "z": 9,
+      "terrain": "water",
+      "kind": null,
+      "floors": 1,
+      "terrainFloors": 1,
+      "buildingType": null,
+      "fenceSide": null
+    },
+    {
+      "x": 5,
+      "z": 9,
+      "terrain": "water",
+      "kind": null,
+      "floors": 1,
+      "terrainFloors": 1,
+      "buildingType": null,
+      "fenceSide": null
+    },
+    {
+      "x": 5,
+      "z": 6,
+      "terrain": "snow",
+      "kind": "house",
+      "floors": 2,
+      "terrainFloors": 2,
+      "buildingType": "cottage",
+      "fenceSide": null
+    },
+    {
+      "x": 6,
+      "z": 5,
+      "terrain": "snow",
+      "kind": "fence",
+      "floors": 1,
+      "terrainFloors": 2,
+      "buildingType": null,
+      "fenceSide": "s"
+    },
+    {
+      "x": 5,
+      "z": 5,
+      "terrain": "snow",
+      "kind": "fence",
+      "floors": 1,
+      "terrainFloors": 2,
+      "buildingType": null,
+      "fenceSide": "s"
+    }
+  ]
+}

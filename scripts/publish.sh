@@ -130,6 +130,17 @@ if [[ -d crowd ]]; then
   ' sh {} +)
 fi
 
+# Data files referenced by the app or used for testing.
+if [[ -d data ]]; then
+  mkdir -p "$DIST/data"
+  (cd data && find . -type f ! -name '.DS_Store' -exec sh -c '
+    for f do
+      mkdir -p "../dist/data/$(dirname "$f")"
+      cp "$f" "../dist/data/$f"
+    done
+  ' sh {} +)
+fi
+
 # 3D model assets referenced directly by the single-file app.
 if [[ -d models ]]; then
   mkdir -p "$DIST/models"
