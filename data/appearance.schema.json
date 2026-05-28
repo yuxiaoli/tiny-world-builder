@@ -17,10 +17,6 @@
       "type": "string",
       "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$"
     },
-    "modelStampId": {
-      "type": "string",
-      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,95}$"
-    },
     "objectScale": {
       "type": "number",
       "minimum": 0.2,
