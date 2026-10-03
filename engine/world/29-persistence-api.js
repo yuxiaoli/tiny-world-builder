@@ -1131,19 +1131,19 @@
     return typeof raw === 'string' && /^\s*[\[{]/.test(raw);
   }
 
-  // Restrict remote ?world= fetches to same-origin so an attacker can't use the
-  // param to pull (or, with credentials, exfiltrate to) an arbitrary host.
-  // Relative paths like ?world=data/snowy.json are the intended use case.
+  // Accept relative and public HTTP(S) world URLs. Cross-origin hosts must
+  // allow CORS; loadWorldFromUrl never sends credentials or a referrer. Reject
+  // active/local URL schemes and embedded credentials before fetching.
   function sanitizeWorldUrl(raw) {
     if (!raw || isInlineWorldParam(raw)) return null;
     try {
       const u = new URL(raw, window.location.href);
-      if (u.origin !== window.location.origin) { console.warn('Ignoring cross-origin ?world= URL:', raw); return null; }
+      if (!['https:', 'http:'].includes(u.protocol) || u.username || u.password) return null;
       return u.href;
     } catch (_) { return null; }
   }
 
-  // Async remote load for ?world=<same-origin-url>. Returns Promise<boolean>.
+  // Async remote load for ?world=<url>. Returns Promise<boolean>.
   // Boot shows a placeholder scene first, so this only needs to report success.
   async function loadWorldFromUrl(rawUrl) {
     const safe = sanitizeWorldUrl(rawUrl);
@@ -1152,7 +1152,7 @@
       const timeoutSignal = (() => {
         try { return AbortSignal.timeout(10000); } catch (_) { return undefined; }
       })();
-      const r = await fetch(safe, { credentials: 'omit', signal: timeoutSignal });
+      const r = await fetch(safe, { credentials: 'omit', referrerPolicy: 'no-referrer', signal: timeoutSignal });
       if (!r.ok) return false;
       const json = await r.json();
       const ok = applyState(json, { keepCamera: false });
