@@ -52,6 +52,7 @@ jobs:
             sleep 1
           done
           npm run smoke:boot
+          BOOT_PATH='/tiny-world-builder/?world=data/world.snowy_village.json' EXPECT_WORLD_FIXTURE='data/world.snowy_village.json' npm run smoke:boot
         env:
           BASE_URL: http://127.0.0.1:4173
           BOOT_PATH: /tiny-world-builder/

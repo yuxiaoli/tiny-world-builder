@@ -83,6 +83,7 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const BOOT_TIMEOUT_MS = Number(process.env.BOOT_TIMEOUT_MS || 30000);
 const BOOT_PATH = process.env.BOOT_PATH || '/tiny-world-builder';
 const TARGET = BASE_URL.replace(/\/$/, '') + BOOT_PATH;
+const EXPECT_WORLD_FIXTURE = process.env.EXPECT_WORLD_FIXTURE || '';
 
 // Console errors that are known dev-only noise, not app-boot failures. The
 // cluso feedback widget is injected only by the local dev server (never shipped,
@@ -112,16 +113,30 @@ async function main() {
   let readyDetail = null;
   try {
     await page.goto(TARGET, { waitUntil: 'domcontentloaded', timeout: BOOT_TIMEOUT_MS });
-    // Ready = the deferred engine modules executed all the way through (late
-    // globals defined) AND a real full-size WebGL canvas exists. A TDZ/throw
-    // partway through boot leaves these undefined -> smoke fails.
+    // Require a live WebGL context and actual rendered geometry, not just a
+    // canvas element or late globals. Disabled/software-broken WebGL must fail.
     await page.waitForFunction(() => {
       const lateModules = typeof window.enterFlightSpawn === 'function'
         && !!window.__tinyworldPoserSurface;
       const bigCanvas = Array.from(document.querySelectorAll('canvas'))
         .some((c) => c.width > 400 && c.height > 300);
-      return lateModules && bigCanvas;
-    }, { timeout: BOOT_TIMEOUT_MS });
+      const drawing = typeof renderer !== 'undefined' && renderer.getContext()
+        && !renderer.getContext().isContextLost()
+        && renderer.info.render.calls > 0 && renderer.info.render.triangles > 0
+        && typeof scene !== 'undefined' && scene.children.length > 0;
+      return lateModules && bigCanvas && drawing;
+    }, null, { timeout: BOOT_TIMEOUT_MS });
+    if (EXPECT_WORLD_FIXTURE) {
+      const expected = JSON.parse(fs.readFileSync(path.resolve(EXPECT_WORLD_FIXTURE), 'utf8'));
+      await page.waitForFunction((data) => {
+        if (typeof GRID === 'undefined' || GRID !== data.gridSize || typeof world === 'undefined') return false;
+        return data.cells.every((cell) => {
+          const c = Array.isArray(cell) ? { x: cell[0], z: cell[1], terrain: cell[2], kind: cell[3] } : cell;
+          const actual = world[c.x] && world[c.x][c.z];
+          return actual && actual.terrain === c.terrain && actual.kind === (c.kind || null);
+        });
+      }, expected, { timeout: BOOT_TIMEOUT_MS });
+    }
     ready = true;
     // Let the render loop run a few seconds so animation-loop-time throws
     // (e.g. a bad path in the per-frame tick) surface as pageerrors too.
@@ -129,6 +144,11 @@ async function main() {
     readyDetail = await page.evaluate(() => ({
       hasFlight: typeof window.enterFlightSpawn === 'function',
       hasPoser: !!window.__tinyworldPoserSurface,
+      webglVersion: renderer.getContext().getParameter(renderer.getContext().VERSION),
+      drawCalls: renderer.info.render.calls,
+      triangles: renderer.info.render.triangles,
+      sceneChildren: scene.children.length,
+      gridSize: typeof GRID !== 'undefined' ? GRID : null,
       canvases: Array.from(document.querySelectorAll('canvas')).map((c) => c.width + 'x' + c.height),
     }));
   } catch (err) {
@@ -139,6 +159,7 @@ async function main() {
 
   const fatal = pageErrors.length > 0 || !ready;
   console.log('boot smoke: ' + TARGET);
+  if (EXPECT_WORLD_FIXTURE) console.log('  expected world fixture: ' + EXPECT_WORLD_FIXTURE);
   console.log('  ready: ' + ready + (readyDetail ? '  ' + JSON.stringify(readyDetail) : ''));
   console.log('  uncaught page errors: ' + pageErrors.length);
   for (const e of pageErrors) console.log('    ! ' + e.split('\n')[0]);
