@@ -1150,7 +1150,10 @@
     if (!safe) return false;
     try {
       const timeoutSignal = (() => {
-        try { return AbortSignal.timeout(10000); } catch (_) { return undefined; }
+        // Initial scene setup and software WebGL can occupy the main thread
+        // for more than ten seconds. Allow that boot work to settle before
+        // aborting a valid URL import; unavailable hosts still have a bound.
+        try { return AbortSignal.timeout(60000); } catch (_) { return undefined; }
       })();
       const r = await fetch(safe, { credentials: 'omit', referrerPolicy: 'no-referrer', signal: timeoutSignal });
       if (!r.ok) return false;

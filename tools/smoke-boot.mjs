@@ -109,10 +109,30 @@ async function main() {
     }
   });
 
+  const worldRequests = [];
+  const bootStartedAt = Date.now();
+  let bootStage = 'preflight';
+  page.on('response', (res) => {
+    if (res.url().includes('world.snowy_village.json')) worldRequests.push({ url: res.url(), status: res.status(), ms: Date.now() - bootStartedAt });
+  });
+  page.on('requestfailed', (req) => {
+    if (req.url().includes('world.snowy_village.json')) worldRequests.push({ url: req.url(), failure: req.failure(), ms: Date.now() - bootStartedAt });
+  });
   let ready = false;
   let readyDetail = null;
   try {
+    if (EXPECT_WORLD_FIXTURE) {
+      const worldUrl = new URL(new URL(TARGET).searchParams.get('world'), TARGET).href;
+      const response = await page.request.get(worldUrl);
+      const expected = JSON.parse(fs.readFileSync(path.resolve(EXPECT_WORLD_FIXTURE), 'utf8'));
+      if (!response.ok() || JSON.stringify(await response.json()) !== JSON.stringify(expected)) {
+        throw new Error('world URL preflight failed: ' + response.status() + ' ' + worldUrl);
+      }
+      worldRequests.push({ preflight: worldUrl, status: response.status(), cells: expected.cells.length });
+    }
+    bootStage = 'navigation';
     await page.goto(TARGET, { waitUntil: 'domcontentloaded', timeout: BOOT_TIMEOUT_MS });
+    bootStage = 'render';
     // Require a live WebGL context and actual rendered geometry, not just a
     // canvas element or late globals. Disabled/software-broken WebGL must fail.
     await page.waitForFunction(() => {
@@ -127,6 +147,7 @@ async function main() {
       return lateModules && bigCanvas && drawing;
     }, null, { timeout: BOOT_TIMEOUT_MS });
     if (EXPECT_WORLD_FIXTURE) {
+      bootStage = 'world-state';
       const expected = JSON.parse(fs.readFileSync(path.resolve(EXPECT_WORLD_FIXTURE), 'utf8'));
       await page.waitForFunction((data) => {
         if (typeof GRID === 'undefined' || GRID !== data.gridSize || typeof world === 'undefined') return false;
@@ -152,14 +173,24 @@ async function main() {
       canvases: Array.from(document.querySelectorAll('canvas')).map((c) => c.width + 'x' + c.height),
     }));
   } catch (err) {
-    readyDetail = { error: String(err && err.message || err) };
+    readyDetail = { stage: bootStage, error: String(err && err.message || err) };
+    try {
+      readyDetail.runtime = await page.evaluate(() => ({
+        gridSize: typeof GRID !== 'undefined' ? GRID : null,
+        sampleCell: typeof world !== 'undefined' && world[6] ? world[6][6] : null,
+        worldParam: typeof getWorldUrlParam === 'function' ? getWorldUrlParam() : null,
+      }));
+    } catch (_) {}
   } finally {
     await browser.close();
   }
 
   const fatal = pageErrors.length > 0 || !ready;
   console.log('boot smoke: ' + TARGET);
-  if (EXPECT_WORLD_FIXTURE) console.log('  expected world fixture: ' + EXPECT_WORLD_FIXTURE);
+  if (EXPECT_WORLD_FIXTURE) {
+    console.log('  expected world fixture: ' + EXPECT_WORLD_FIXTURE);
+    console.log('  world URL requests: ' + JSON.stringify(worldRequests));
+  }
   console.log('  ready: ' + ready + (readyDetail ? '  ' + JSON.stringify(readyDetail) : ''));
   console.log('  uncaught page errors: ' + pageErrors.length);
   for (const e of pageErrors) console.log('    ! ' + e.split('\n')[0]);

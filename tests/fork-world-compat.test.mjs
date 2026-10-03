@@ -53,16 +53,19 @@ test('fork world URLs allow public HTTP(S) and project-relative JSON, reject uns
 
 test('remote worlds load asynchronously without credentials or referrer', async () => {
   let request;
+  let timeoutBudget;
   let applied;
   let resets = 0;
   const data = { v: 4, cells: [] };
   const ctx = urlRuntime(undefined, {
+    AbortSignal: { timeout: (ms) => { timeoutBudget = ms; return undefined; } },
     fetch: async (url, options) => { request = { url, options }; return { ok: true, json: async () => data }; },
     applyState: (value) => { applied = value; return true; },
     resetCameraDefaults: () => { resets++; },
   });
   assert.equal(await ctx.loadWorldFromUrl('https://other.test/world.json'), true);
   assert.equal(applied, data);
+  assert.equal(timeoutBudget, 60000);
   assert.equal(request.options.credentials, 'omit');
   assert.equal(request.options.referrerPolicy, 'no-referrer');
   assert.equal(resets, 1);
