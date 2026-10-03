@@ -2,18 +2,36 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tinyworld.local/planetLandscape.schema.json",
   "title": "Planet Landscape",
-  "type": ["object", "null"],
+  "type": [
+    "object",
+    "null"
+  ],
   "additionalProperties": false,
+  "description": "Optional LandscapeEngine planet surface rendered below the floating home board.",
   "properties": {
-    "enabled": { "type": "boolean" },
-    "seed": { "type": ["number", "string"] },
+    "enabled": {
+      "type": "boolean"
+    },
+    "seed": {
+      "type": [
+        "number",
+        "string"
+      ]
+    },
     "biome": {
       "type": "string",
-      "enum": ["grassland", "desert", "snow"]
+      "enum": [
+        "grassland",
+        "desert",
+        "snow"
+      ]
     },
     "styleMode": {
       "type": "string",
-      "enum": ["lowpoly", "realistic"]
+      "enum": [
+        "lowpoly",
+        "realistic"
+      ]
     },
     "drop": {
       "type": "number",

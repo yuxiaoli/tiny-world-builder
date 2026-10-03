@@ -2,7 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tinyworld.local/appearance.schema.json",
   "title": "Appearance",
-  "type": ["object", "null"],
+  "type": [
+    "object",
+    "null"
+  ],
   "additionalProperties": false,
   "properties": {
     "bodyColor": {
@@ -17,25 +20,29 @@
       "type": "string",
       "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$"
     },
+    "modelStampId": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,95}$"
+    },
     "objectScale": {
       "type": "number",
       "minimum": 0.2,
-      "maximum": 4
+      "maximum": 24
     },
     "scaleX": {
       "type": "number",
       "minimum": 0.15,
-      "maximum": 5
+      "maximum": 24
     },
     "scaleY": {
       "type": "number",
       "minimum": 0.15,
-      "maximum": 5
+      "maximum": 24
     },
     "scaleZ": {
       "type": "number",
       "minimum": 0.15,
-      "maximum": 5
+      "maximum": 24
     },
     "materialTexture": {
       "type": "string"
@@ -63,7 +70,18 @@
     },
     "objectStyle": {
       "type": "string",
-      "enum": ["normal", "voxel"]
+      "enum": [
+        "normal",
+        "voxel"
+      ]
+    },
+    "fenceStyle": {
+      "type": "string",
+      "enum": [
+        "garden",
+        "gate",
+        "castle"
+      ]
     }
   }
 }

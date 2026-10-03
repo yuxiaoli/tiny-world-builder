@@ -26,8 +26,8 @@ test('feature-flags POST rejects non-admin callers', async () => {
 });
 
 test('feature-flags POST saves with localhost admin secret', async (t) => {
-  if (process.env.VERCEL || process.env.VERCEL_ENV) {
-    t.skip('Netlify Blobs/Database not available on Vercel static builds');
+  if (process.env.VERCEL || process.env.VERCEL_ENV || process.env.GITHUB_PAGES === 'true') {
+    t.skip('Netlify Blobs/Database not available on static Vercel or GitHub Pages builds');
     return;
   }
 

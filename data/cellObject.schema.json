@@ -15,24 +15,60 @@
     "fenceSide"
   ],
   "properties": {
-    "x": { "$ref": "world.schema.json#/$defs/coord" },
-    "z": { "$ref": "world.schema.json#/$defs/coord" },
-    "terrain": { "$ref": "world.schema.json#/$defs/terrain" },
-    "kind": { "$ref": "world.schema.json#/$defs/kind" },
+    "x": {
+      "$ref": "world.schema.json#/$defs/coord"
+    },
+    "z": {
+      "$ref": "world.schema.json#/$defs/coord"
+    },
+    "terrain": {
+      "$ref": "world.schema.json#/$defs/terrain"
+    },
+    "kind": {
+      "$ref": "world.schema.json#/$defs/kind"
+    },
     "floors": {
       "type": "integer",
       "minimum": 1,
-      "maximum": 8
+      "maximum": 8,
+      "description": "Object stack/intensity count. For houses it means floors; for non-house props/crops it is enhancement density from repeat taps. It must not be used to raise the ground."
     },
     "terrainFloors": {
       "type": "integer",
       "minimum": 1,
-      "maximum": 8
+      "maximum": 8,
+      "description": "Ground height stack for the terrain layer only. Terrain repeat taps raise this value. Object repeat taps raise floors instead."
     },
-    "buildingType": { "$ref": "world.schema.json#/$defs/buildingType" },
-    "fenceSide": { "$ref": "world.schema.json#/$defs/fenceSide" },
-    "extras": { "$ref": "world.schema.json#/$defs/extras" },
-    "transform": { "$ref": "transform.schema.json" },
-    "appearance": { "$ref": "appearance.schema.json" }
+    "buildingType": {
+      "$ref": "world.schema.json#/$defs/buildingType"
+    },
+    "fenceSide": {
+      "$ref": "world.schema.json#/$defs/fenceSide"
+    },
+    "extras": {
+      "$ref": "world.schema.json#/$defs/extras"
+    },
+    "transform": {
+      "$ref": "world.schema.json#/$defs/transform"
+    },
+    "appearance": {
+      "$ref": "world.schema.json#/$defs/appearance"
+    },
+    "economy": {
+      "$ref": "world.schema.json#/$defs/cellEconomy"
+    },
+    "customName": {
+      "type": "string",
+      "description": "Optional short name for a bespoke custom object authored via customParts."
+    },
+    "customFootprint": {
+      "type": "number",
+      "minimum": 0.6,
+      "maximum": 3.2,
+      "description": "Optional initial render footprint in tile units for customParts. Use about 1.1 for compact bridges/props, 1.2 for normal single-cell objects, and 1.5-1.8 only for deliberate hero objects."
+    },
+    "customParts": {
+      "$ref": "world.schema.json#/$defs/customParts"
+    }
   }
 }

@@ -7,11 +7,17 @@
   "properties": {
     "kind": {
       "type": "string",
-      "enum": ["fence", "tuft"]
+      "enum": [
+        "fence",
+        "tuft"
+      ]
     },
     "k": {
       "type": "string",
-      "enum": ["fence", "tuft"]
+      "enum": [
+        "fence",
+        "tuft"
+      ]
     },
     "fenceSide": {
       "$ref": "world.schema.json#/$defs/fenceSide"
@@ -28,10 +34,24 @@
       "type": "integer",
       "minimum": 1,
       "maximum": 8
+    },
+    "appearance": {
+      "$ref": "world.schema.json#/$defs/appearance"
+    },
+    "a": {
+      "$ref": "world.schema.json#/$defs/appearance"
     }
   },
   "anyOf": [
-    { "required": ["kind"] },
-    { "required": ["k"] }
+    {
+      "required": [
+        "kind"
+      ]
+    },
+    {
+      "required": [
+        "k"
+      ]
+    }
   ]
 }

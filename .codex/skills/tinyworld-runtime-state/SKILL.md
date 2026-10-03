@@ -282,3 +282,16 @@ and `planetLandscape`. `applyState()` restores `voxelBuildStamps` on import.
 Model stamps are bundled manifest assets referenced by `appearance.modelStampId`
 (no binary to embed). When adding any new persisted world concept, add it to
 **both** `saveState` and the export object, and handle it in `applyState`.
+
+## Fork world URL and Pages compatibility
+
+- The fork accepts relative and cross-origin HTTP(S) `?world=` URLs, including
+  hash parameters. Cross-origin servers must permit CORS. Keep credentials
+  omitted, use a no-referrer policy, and reject other schemes and URL credentials.
+- The extracted `data/*.schema.json` files mirror the current root schema;
+  preserve new supported types, including model stamps, when refreshing them.
+- `scripts/publish.sh` delegates to the current root publisher. The develop-only
+  Pages workflow sets `GITHUB_PAGES=true`, which adapts known static routes to
+  `/tiny-world-builder/` using `tools/prepare-pages.js`. Pages opens the editor
+  at its root and retains the upstream landing page at `landing.html`. Netlify API-backed
+  features still require a server and are not provided by GitHub Pages.
