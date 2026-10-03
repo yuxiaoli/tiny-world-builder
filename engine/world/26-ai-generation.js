@@ -326,6 +326,7 @@
     const okCameraMode = new Set(['ortho','topdown','perspective','tp','fp']);
     if (data.cameraMode !== undefined && !okCameraMode.has(data.cameraMode)) return 'cameraMode invalid: ' + data.cameraMode;
     if (data.gridSize !== undefined && !isValidGridSize(data.gridSize)) return 'gridSize invalid: ' + data.gridSize;
+    if (data.toolId !== undefined && typeof data.toolId !== 'string') return 'toolId must be a string';
     if (Array.isArray(data.islands)) {
       const islandBoards = new Set();
       for (let i = 0; i < data.islands.length; i++) {
