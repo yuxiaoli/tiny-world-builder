@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tinyworld.local/planetLandscape.schema.json",
+  "title": "Planet Landscape",
+  "type": ["object", "null"],
+  "additionalProperties": false,
+  "properties": {
+    "enabled": { "type": "boolean" },
+    "seed": { "type": ["number", "string"] },
+    "biome": {
+      "type": "string",
+      "enum": ["grassland", "desert", "snow"]
+    },
+    "styleMode": {
+      "type": "string",
+      "enum": ["lowpoly", "realistic"]
+    },
+    "drop": {
+      "type": "number",
+      "minimum": 20,
+      "maximum": 300
+    }
+  }
+}

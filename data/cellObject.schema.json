@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tinyworld.local/cellObject.schema.json",
+  "title": "Cell Object",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "x",
+    "z",
+    "terrain",
+    "kind",
+    "floors",
+    "terrainFloors",
+    "buildingType",
+    "fenceSide"
+  ],
+  "properties": {
+    "x": { "$ref": "world.schema.json#/$defs/coord" },
+    "z": { "$ref": "world.schema.json#/$defs/coord" },
+    "terrain": { "$ref": "world.schema.json#/$defs/terrain" },
+    "kind": { "$ref": "world.schema.json#/$defs/kind" },
+    "floors": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8
+    },
+    "terrainFloors": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8
+    },
+    "buildingType": { "$ref": "world.schema.json#/$defs/buildingType" },
+    "fenceSide": { "$ref": "world.schema.json#/$defs/fenceSide" },
+    "extras": { "$ref": "world.schema.json#/$defs/extras" },
+    "transform": { "$ref": "transform.schema.json" },
+    "appearance": { "$ref": "appearance.schema.json" }
+  }
+}

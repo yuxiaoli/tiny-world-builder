@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "node tools/dev-server.js",
-    "build": "./publish.sh",
+    "build": "./scripts/publish.sh",
     "check": "node tools/check.js",
     "i18n:check": "node tools/i18n-check.js",
     "i18n:report": "node tools/i18n-check.js --report",
