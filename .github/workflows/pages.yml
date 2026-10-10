@@ -66,3 +66,17 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify live Pages assets and editor
+        run: |
+          page_url="${BASE_URL%/}/"
+          for asset in index.html LandscapeEngine.js vendor/three/tinyworld-three.r185.min.js data/world.snowy_village.json; do
+            curl --fail --silent --show-error --max-time 30 --retry 4 --retry-delay 5 --retry-all-errors \
+              "${page_url}${asset}?revision=${GITHUB_SHA}" -o "$RUNNER_TEMP/live-pages-asset"
+            cmp "dist/$asset" "$RUNNER_TEMP/live-pages-asset"
+          done
+          npm run smoke:boot
+          BOOT_PATH='/?world=data/world.snowy_village.json' EXPECT_WORLD_FIXTURE='data/world.snowy_village.json' npm run smoke:boot
+        env:
+          BASE_URL: ${{ steps.deployment.outputs.page_url }}
+          BOOT_PATH: /
+          BOOT_TIMEOUT_MS: 90000

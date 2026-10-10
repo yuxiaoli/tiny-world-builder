@@ -12,3 +12,5 @@ description: Use when maintaining the fork's production-line workflow or its saf
 - Preserve the hourly schedule, opt-in variable/secret gate, economy denylist, generated drafts, and status history.
 - Before dispatching, verify the operative workflow on the default branch has these targets. Never rerun a historical workflow that pushes to `main`.
 - Validate with `npm test`, the Pages build, and the existing real-WebGL default/snowy-fixture smoke checks. Distinguish local browser checks from live Pages checks.
+- Static Pages CI sets `GITHUB_PAGES=true` to use the existing hosted-Netlify persistence exclusion. Dev-server readiness must use a bounded GET probe: its HTML HEAD response currently remains open.
+- The existing Pages workflow checks critical live asset bytes against its built artifact after deployment, then runs real Chromium WebGL smoke checks against both the live editor and snowy fixture.

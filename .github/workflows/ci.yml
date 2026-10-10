@@ -35,8 +35,9 @@ jobs:
       - name: Install Playwright Chromium
         run: npm i --no-save playwright && npx playwright install --with-deps chromium
       - name: Start dev server
-        run: node tools/dev-server.js & npx --yes wait-on http://localhost:3000/tiny-world-builder
+        # HTML HEAD responses do not end in this dev server; probe with GET.
+        run: node tools/dev-server.js & npx --yes wait-on --timeout 60000 http-get://127.0.0.1:3000/tiny-world-builder
       - name: Boot smoke
         run: node tools/smoke-boot.mjs
         env:
-          BASE_URL: http://localhost:3000
+          BASE_URL: http://127.0.0.1:3000
