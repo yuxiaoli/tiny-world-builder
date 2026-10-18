@@ -216,6 +216,11 @@
   ],
   "feed": [
     {
+      "ts": "2026-10-18T04:27:00.580Z",
+      "kind": "tick",
+      "text": "Autonomous tick (safe scope): drafted news/tweet for \"production-line: tick drafts + dashboard refresh [skip ci]\" -> plans/production-line/drafts/2026-10-18T04-27-production-line-tick-drafts-dashboard-refresh-sk.md. No economy paths touched."
+    },
+    {
       "ts": "2026-10-18T00:04:04.201Z",
       "kind": "tick",
       "text": "Autonomous tick (safe scope): drafted news/tweet for \"production-line: tick drafts + dashboard refresh [skip ci]\" -> plans/production-line/drafts/2026-10-18T00-04-production-line-tick-drafts-dashboard-refresh-sk.md. No economy paths touched."
@@ -409,12 +414,7 @@
       "ts": "2026-10-10T13:37:49.103Z",
       "kind": "tick",
       "text": "Autonomous tick (safe scope): drafted news/tweet for \"ci: verify live Pages and bound browser readiness\" -> plans/production-line/drafts/2026-10-10T13-37-ci-verify-live-pages-and-bound-browser-readiness.md. No economy paths touched."
-    },
-    {
-      "ts": "2026-10-03T16:17:14.026Z",
-      "kind": "tick",
-      "text": "Autonomous tick (safe scope): drafted news/tweet for \"Allow world URL imports to finish during heavy WebGL startup\" -> plans/production-line/drafts/2026-10-03T16-17-allow-world-url-imports-to-finish-during-heavy-w.md. No economy paths touched."
     }
   ],
-  "lastTick": "2026-10-18T00:04:04.201Z"
+  "lastTick": "2026-10-18T04:27:00.580Z"
 }
